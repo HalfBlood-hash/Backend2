@@ -1,0 +1,8 @@
+PORT=8000
+MONGO_URI=mongodb+srv://satyam:satyam%40123@satyamcluster0.txwie6i.mongodb.net
+CORS=*
+
+ACCESS_TOKEN_SECRET="xIYjF4UDJ0lrul7wu9S7ofmXdFSH2tpdp7R7Iu8Q4dljkGGOl7QKSvX4yK9gqBJc"
+REFRESH_TOKEN_SECRET="L..+[R:{[6RV?scZA|wz#.uH0HX4@}2o[Q(z-JdjDXDpZMZ:O;PD-2Ox2TI.=-.I"
+ACCESS_TOKEN_EXPIRY=1d
+REFRESH_TOKEN_EXPIRY=30
