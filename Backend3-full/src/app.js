@@ -17,6 +17,15 @@ app.use(express.json({limit:"10kb"}))
 app.use(express.urlencoded({extended:true,limit:"10kb"}))
 // to store some image and pdf locally
 app.use(express.static("public"))
-app.use(cookieParser)
+app.use(cookieParser())
+
+
+// import routes
+
+import userRouter from "./routes/user.route.js"
+
+app.use('/users',userRouter)
+
+
 
 export {app}
