@@ -8,7 +8,7 @@ const router =Router()
 router.route('/register').post(
     upload.fields([
         {
-            name:"avatar",// this name should be same in  fornend also
+            name:"avatar",// this name should be same in  forntend also
             maxCount:1
         },
 

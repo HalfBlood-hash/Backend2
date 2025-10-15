@@ -12,7 +12,7 @@ const registerUser= asyncHandler(async(req,res)=>{
         //     message:"ok register"
         // })
 
-         // get the data from front end
+        // get the data from front end
         //  check validation on the feild -not empty
         // check the if user already register or not 
         //    check the avart image and cover image
@@ -28,30 +28,35 @@ const registerUser= asyncHandler(async(req,res)=>{
             throw new ApiError(400," All Feilds are required ");
 
         }
-        const existedUser=User.findOne({
+        const existedUser=await User.findOne({
             $or:[{ username },{ email }]
         })
         if(existedUser)
         {
             throw new ApiError(409," username or email already existed")
         }
-
-        const avatarLocalPath=req.file?.avatar[0]?.path;
-        const CoverImageLocalPath=req.file?.coverImage[0]?.path;
+           
+            const avatarLocalPath=req.files?.avatar?.[0]?.path;
+            // const CoverImageLocalPath=req.files?.coverImage?.[0]?.path;
+            // sometime the way give us error when you not sending cover image
+            let CoverImageLocalPath
+            if(req.files && Array.isArray(req.files.coverImage)&& req.files.coverImage.length>0 )
+                {
+                    CoverImageLocalPath=req.files.coverImage[0].path;   
+                }   
 
         if(!avatarLocalPath) throw new ApiError(400," Avatar is required ");
-
         const avatar= await uploadOnCloudinary(avatarLocalPath);
         const coverImage= await uploadOnCloudinary(CoverImageLocalPath);
 
-    if(! avatar) throw new ApiError(400," Avatar is required "); 
+    if(! avatar) throw new ApiError(400," Avatari is required "); 
     const user=await User.create({
-        fullName,
-        password,
-        email,
-        username:username.toLowercase(),
-        avatar:avatar.url,
-        coverImage:coverImage?.url||""
+    fullName:fullname,
+    password,
+    email,
+    username:username.toLowerCase(),
+    avatar:avatar.url,
+    coverImage:coverImage?.url||""
     })   
     const createdUser=await User.findById(user._id).select(
         "-password -refreshToken -watchHistory"
